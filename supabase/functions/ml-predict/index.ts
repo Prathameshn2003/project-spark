@@ -36,13 +36,14 @@ serve(async (req) => {
     let endpoint: string;
     switch (model_type) {
       case "pcos":
-        endpoint = "/predict/pcos";
+        endpoint = '/pcos/predict';
         break;
       case "menopause":
-        endpoint = "/predict/menopause";
+        endpoint = '/menopause/predict';
+
         break;
       case "cycle":
-        endpoint = "/predict/menstrual";
+        endpoint = '/menstrual/predict';
         break;
       default:
         return new Response(

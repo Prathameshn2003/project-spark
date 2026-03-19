@@ -1,26 +1,75 @@
+<!-- index.html - PWA HTML Entry Point -->
+<!-- Location: Root directory (/) -->
+<!-- Copy this entire file as-is -->
+
 <!doctype html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <!-- TODO: Set the document title to the name of your application -->
-    <title>Lovable App</title>
-    <meta name="description" content="Lovable Generated Project" />
-    <meta name="author" content="Lovable" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+    <title>NaariCare – Women's Health Platform</title>
 
-    <!-- TODO: Update og:title to match your application name -->
-    <meta property="og:title" content="Lovable App" />
-    <meta property="og:description" content="Lovable Generated Project" />
-    <meta property="og:type" content="website" />
-    <meta property="og:image" content="https://lovable.dev/opengraph-image-p98pqg.png" />
+    <!-- PWA Manifest -->
+    <link rel="manifest" href="/manifest.json" />
 
-    <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:site" content="@Lovable" />
-    <meta name="twitter:image" content="https://lovable.dev/opengraph-image-p98pqg.png" />
+    <!-- Icons -->
+    <link rel="icon" type="image/x-icon" href="/favicon.ico" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <link rel="icon" type="image/png" sizes="192x192" href="/favicon-192x192.png" />
+    <link rel="icon" type="image/png" sizes="512x512" href="/favicon-512x512.png" />
+
+    <!-- Meta Tags for PWA -->
+    <meta name="description" content="NaariCare - AI-powered women's health platform" />
+    <meta name="theme-color" content="#ec4899" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <meta name="apple-mobile-web-app-title" content="NaariCare" />
+
+    <!-- Disable zoom for better PWA experience -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
   </head>
 
   <body>
+    <!-- React App Container -->
     <div id="root"></div>
+
+    <!-- React & Vite App -->
     <script type="module" src="/src/main.tsx"></script>
+
+    <!-- Service Worker Registration -->
+    <script>
+      // Register Service Worker
+      if ('serviceWorker' in navigator) {
+        window.addEventListener('load', () => {
+          navigator.serviceWorker.register('/sw.js')
+            .then(reg => {
+              console.log('✅ Service Worker registered');
+              // Check for updates every minute
+              setInterval(() => reg.update(), 60000);
+            })
+            .catch(err => console.error('Service Worker failed:', err));
+        });
+      }
+
+      // Handle Install Prompt
+      let deferredPrompt;
+      window.addEventListener('beforeinstallprompt', (e) => {
+        e.preventDefault();
+        deferredPrompt = e;
+        console.log('📱 Install prompt ready');
+        // Dispatch custom event for React component
+        window.dispatchEvent(new CustomEvent('pwa-installable'));
+      });
+
+      // Handle App Installed
+      window.addEventListener('appinstalled', () => {
+        console.log('✅ App installed!');
+        localStorage.setItem('pwa-installed', 'true');
+        window.dispatchEvent(new CustomEvent('pwa-installed'));
+      });
+
+      // Expose deferredPrompt globally
+      window.deferredPrompt = () => deferredPrompt;
+    </script>
   </body>
 </html>

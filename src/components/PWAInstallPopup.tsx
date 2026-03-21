@@ -1,7 +1,8 @@
 import { memo } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Download, X, Smartphone } from "lucide-react";
+import { Download, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import logoImg from "@/assets/logo.png";
 
 interface PWAInstallPopupProps {
   show: boolean;

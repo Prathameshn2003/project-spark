@@ -32,9 +32,7 @@ export const Footer = forwardRef<HTMLElement>((props, ref) => {
           {/* Brand */}
           <div className="lg:col-span-2">
             <Link to="/" className="flex items-center gap-2 mb-4">
-              <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-primary to-accent flex items-center justify-center">
-                <Heart className="w-5 h-5 text-foreground fill-current" />
-              </div>
+              <img src={logoImg} alt="NaariCare Logo" className="w-10 h-10 rounded-xl object-contain" />
               <span className="font-heading font-bold text-xl text-foreground">
                 Naari<span className="text-accent">Care</span>
               </span>

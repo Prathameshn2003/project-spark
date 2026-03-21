@@ -74,9 +74,7 @@ export const DashboardSidebar = () => {
       {/* Logo */}
       <div className="p-4 border-b border-sidebar-border">
         <NavLink to="/" className="flex items-center gap-2.5">
-          <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-primary to-accent flex items-center justify-center flex-shrink-0 shadow-sm">
-            <Heart className="w-5 h-5 text-primary-foreground fill-current" />
-          </div>
+          <img src={logoImg} alt="NaariCare Logo" className="w-10 h-10 rounded-xl shadow-sm flex-shrink-0 object-contain" />
           {!isCollapsed && (
             <span className="font-heading font-bold text-lg text-sidebar-foreground">
               Naari<span className="text-accent">Care</span>

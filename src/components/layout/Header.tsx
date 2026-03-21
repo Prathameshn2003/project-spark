@@ -30,6 +30,7 @@ export const Header = memo(() => {
   const location = useLocation();
   const navigate = useNavigate();
   const { user, signOut, loading, isAdmin } = useAuth();
+  const { isInstallable, isInstalled, openPopup } = usePWAInstall();
 
   const handleSignOut = useCallback(async () => {
     await signOut();

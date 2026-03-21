@@ -17,9 +17,9 @@ import {
   Shield,
   Users,
   BookOpen,
-  Heart,
   ChevronRight,
 } from "lucide-react";
+import logoImg from "@/assets/logo.png";
 
 // User navigation items
 const userNavItems = [

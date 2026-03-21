@@ -1,7 +1,8 @@
 import { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
-import { Heart, Lock, ArrowRight, Loader2, CheckCircle, Eye, EyeOff } from "lucide-react";
+import { Lock, ArrowRight, Loader2, CheckCircle, Eye, EyeOff } from "lucide-react";
+import logoImg from "@/assets/logo.png";
 import { useAuth } from "@/hooks/useAuth";
 import { useToast } from "@/hooks/use-toast";
 import { z } from "zod";

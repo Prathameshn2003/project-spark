@@ -1,8 +1,9 @@
 import { useState, memo, useCallback } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
-import { Heart, Menu, X, User, LogOut, Shield } from "lucide-react";
+import { Heart, Menu, X, User, LogOut, Shield, Download } from "lucide-react";
 import { useAuth } from "@/hooks/useAuth";
+import { usePWAInstall } from "@/hooks/usePWAInstall";
 import {
   DropdownMenu,
   DropdownMenuContent,

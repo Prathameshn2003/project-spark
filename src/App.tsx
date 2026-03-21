@@ -6,7 +6,8 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { AuthProvider } from "@/hooks/useAuth";
 import { ProtectedRoute } from "@/components/ProtectedRoute";
-// ScrollToTop handled by useScrollToTop hook in DashboardLayout
+import { PWAInstallPopup } from "@/components/PWAInstallPopup";
+import { usePWAInstall } from "@/hooks/usePWAInstall";
 
 // Eager load critical pages
 import Index from "./pages/Index";
@@ -46,8 +47,8 @@ const AdminDoctorsPage = lazy(() => import("./pages/admin/AdminDoctorsPage"));
 const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
-      staleTime: 5 * 60 * 1000, // 5 minutes
-      gcTime: 10 * 60 * 1000, // 10 minutes (formerly cacheTime)
+      staleTime: 5 * 60 * 1000,
+      gcTime: 10 * 60 * 1000,
       retry: 1,
       refetchOnWindowFocus: false,
     },
@@ -64,6 +65,65 @@ const PageLoader = () => (
   </div>
 );
 
+const AppContent = () => {
+  const { showPopup, triggerInstall, dismissPopup } = usePWAInstall();
+
+  return (
+    <>
+      <Suspense fallback={<PageLoader />}>
+        <Routes>
+          {/* Public routes */}
+          <Route path="/" element={<Index />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/signup" element={<Signup />} />
+          <Route path="/forgot-password" element={<ForgotPassword />} />
+          <Route path="/reset-password" element={<ResetPassword />} />
+          <Route path="/about" element={<About />} />
+          <Route path="/privacy" element={<Privacy />} />
+          <Route path="/terms" element={<Terms />} />
+          <Route path="/contact" element={<Contact />} />
+          
+          {/* Protected routes */}
+          <Route path="/dashboard" element={<ProtectedRoute><Dashboard /></ProtectedRoute>} />
+          <Route path="/profile" element={<ProtectedRoute><Profile /></ProtectedRoute>} />
+          <Route path="/modules" element={<ProtectedRoute><Modules /></ProtectedRoute>} />
+          <Route path="/modules/pcos" element={<ProtectedRoute><PCOSModule /></ProtectedRoute>} />
+          <Route path="/modules/menstrual" element={<ProtectedRoute><MenstrualModule /></ProtectedRoute>} />
+          <Route path="/modules/menopause" element={<ProtectedRoute><MenopauseModule /></ProtectedRoute>} />
+          <Route path="/menstrual-assessment" element={<Navigate to="/modules/menstrual" replace />} />
+          <Route path="/chatbot" element={<ProtectedRoute><Chatbot /></ProtectedRoute>} />
+          <Route path="/doctors" element={<ProtectedRoute><Doctors /></ProtectedRoute>} />
+          <Route path="/schemes" element={<ProtectedRoute><Schemes /></ProtectedRoute>} />
+          <Route path="/health-resources" element={<ProtectedRoute><HealthResources /></ProtectedRoute>} />
+          <Route path="/hygiene" element={<ProtectedRoute><Hygiene /></ProtectedRoute>} />
+          <Route path="/education" element={<ProtectedRoute><Education /></ProtectedRoute>} />
+          <Route path="/dashboard/documents" element={<ProtectedRoute><Documents /></ProtectedRoute>} />
+          
+          {/* Redirect old education paths to modules */}
+          <Route path="/education/pcos" element={<Navigate to="/modules/pcos" replace />} />
+          <Route path="/education/menopause" element={<Navigate to="/modules/menopause" replace />} />
+          <Route path="/education/menstrual" element={<Navigate to="/modules/menstrual" replace />} />
+          
+          {/* Admin routes */}
+          <Route path="/admin" element={<Navigate to="/admin/users" replace />} />
+          <Route path="/admin/users" element={<ProtectedRoute requireAdmin><AdminUsersPage /></ProtectedRoute>} />
+          <Route path="/admin/resources" element={<ProtectedRoute requireAdmin><AdminResourcesPage /></ProtectedRoute>} />
+          <Route path="/admin/schemes" element={<ProtectedRoute requireAdmin><AdminSchemesPage /></ProtectedRoute>} />
+          <Route path="/admin/doctors" element={<ProtectedRoute requireAdmin><AdminDoctorsPage /></ProtectedRoute>} />
+          
+          <Route path="*" element={<NotFound />} />
+        </Routes>
+      </Suspense>
+
+      <PWAInstallPopup
+        show={showPopup}
+        onInstall={triggerInstall}
+        onDismiss={dismissPopup}
+      />
+    </>
+  );
+};
+
 const App = () => (
   <QueryClientProvider client={queryClient}>
     <TooltipProvider>
@@ -71,51 +131,7 @@ const App = () => (
       <Sonner />
       <BrowserRouter>
         <AuthProvider>
-          
-          <Suspense fallback={<PageLoader />}>
-            <Routes>
-              {/* Public routes */}
-              <Route path="/" element={<Index />} />
-              <Route path="/login" element={<Login />} />
-              <Route path="/signup" element={<Signup />} />
-              <Route path="/forgot-password" element={<ForgotPassword />} />
-              <Route path="/reset-password" element={<ResetPassword />} />
-              <Route path="/about" element={<About />} />
-              <Route path="/privacy" element={<Privacy />} />
-              <Route path="/terms" element={<Terms />} />
-              <Route path="/contact" element={<Contact />} />
-              
-              {/* Protected routes */}
-              <Route path="/dashboard" element={<ProtectedRoute><Dashboard /></ProtectedRoute>} />
-              <Route path="/profile" element={<ProtectedRoute><Profile /></ProtectedRoute>} />
-              <Route path="/modules" element={<ProtectedRoute><Modules /></ProtectedRoute>} />
-              <Route path="/modules/pcos" element={<ProtectedRoute><PCOSModule /></ProtectedRoute>} />
-              <Route path="/modules/menstrual" element={<ProtectedRoute><MenstrualModule /></ProtectedRoute>} />
-              <Route path="/modules/menopause" element={<ProtectedRoute><MenopauseModule /></ProtectedRoute>} />
-              <Route path="/menstrual-assessment" element={<Navigate to="/modules/menstrual" replace />} />
-              <Route path="/chatbot" element={<ProtectedRoute><Chatbot /></ProtectedRoute>} />
-              <Route path="/doctors" element={<ProtectedRoute><Doctors /></ProtectedRoute>} />
-              <Route path="/schemes" element={<ProtectedRoute><Schemes /></ProtectedRoute>} />
-              <Route path="/health-resources" element={<ProtectedRoute><HealthResources /></ProtectedRoute>} />
-              <Route path="/hygiene" element={<ProtectedRoute><Hygiene /></ProtectedRoute>} />
-              <Route path="/education" element={<ProtectedRoute><Education /></ProtectedRoute>} />
-              <Route path="/dashboard/documents" element={<ProtectedRoute><Documents /></ProtectedRoute>} />
-              
-              {/* Redirect old education paths to modules */}
-              <Route path="/education/pcos" element={<Navigate to="/modules/pcos" replace />} />
-              <Route path="/education/menopause" element={<Navigate to="/modules/menopause" replace />} />
-              <Route path="/education/menstrual" element={<Navigate to="/modules/menstrual" replace />} />
-              
-              {/* Admin routes - protected and require admin role */}
-              <Route path="/admin" element={<Navigate to="/admin/users" replace />} />
-              <Route path="/admin/users" element={<ProtectedRoute requireAdmin><AdminUsersPage /></ProtectedRoute>} />
-              <Route path="/admin/resources" element={<ProtectedRoute requireAdmin><AdminResourcesPage /></ProtectedRoute>} />
-              <Route path="/admin/schemes" element={<ProtectedRoute requireAdmin><AdminSchemesPage /></ProtectedRoute>} />
-              <Route path="/admin/doctors" element={<ProtectedRoute requireAdmin><AdminDoctorsPage /></ProtectedRoute>} />
-              
-              <Route path="*" element={<NotFound />} />
-            </Routes>
-          </Suspense>
+          <AppContent />
         </AuthProvider>
       </BrowserRouter>
     </TooltipProvider>

@@ -71,7 +71,18 @@ export const Header = memo(() => {
           </nav>
 
           {/* Desktop Actions */}
-          <div className="hidden md:flex items-center gap-3">
+          <div className="hidden md:flex items-center gap-2">
+            {isInstallable && !isInstalled && (
+              <Button
+                variant="outline"
+                size="sm"
+                className="gap-1.5 text-xs border-primary/30 text-primary hover:bg-primary/10"
+                onClick={openPopup}
+              >
+                <Download className="w-3.5 h-3.5" />
+                Install App
+              </Button>
+            )}
             {loading ? (
               <div className="w-8 h-8 rounded-full bg-muted animate-pulse" />
             ) : user ? (

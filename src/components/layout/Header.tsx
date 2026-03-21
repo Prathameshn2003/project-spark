@@ -184,6 +184,15 @@ export const Header = memo(() => {
                   Admin Panel
                 </Link>
               )}
+              {isInstallable && !isInstalled && (
+                <button
+                  onClick={() => { openPopup(); setIsMenuOpen(false); }}
+                  className="px-4 py-3 rounded-lg text-sm font-medium transition-colors flex items-center gap-2 text-primary hover:bg-primary/10"
+                >
+                  <Download className="w-4 h-4" />
+                  Install App
+                </button>
+              )}
               <div className="flex gap-2 mt-4 pt-4 border-t border-border">
                 {user ? (
                   <Button variant="outline" className="w-full" onClick={handleSignOut}>

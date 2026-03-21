@@ -1,7 +1,8 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
-import { Heart, Mail, ArrowLeft, Loader2, CheckCircle } from "lucide-react";
+import { Mail, ArrowLeft, Loader2, CheckCircle } from "lucide-react";
+import logoImg from "@/assets/logo.png";
 import { useAuth } from "@/hooks/useAuth";
 import { useToast } from "@/hooks/use-toast";
 import { z } from "zod";

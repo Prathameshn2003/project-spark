@@ -46,9 +46,7 @@ export const Header = memo(() => {
         <div className="flex items-center justify-between h-16 md:h-20">
           {/* Logo */}
           <Link to="/" className="flex items-center gap-2 group">
-            <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-primary to-accent flex items-center justify-center shadow-soft group-hover:scale-105 transition-transform">
-              <Heart className="w-5 h-5 text-foreground fill-current" />
-            </div>
+            <img src={logoImg} alt="NaariCare Logo" className="w-10 h-10 rounded-xl shadow-soft group-hover:scale-105 transition-transform object-contain" />
             <span className="font-heading font-bold text-xl text-foreground">
               Naari<span className="text-accent">Care</span>
             </span>

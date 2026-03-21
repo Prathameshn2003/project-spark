@@ -1,7 +1,8 @@
 import { memo } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Download, X, Smartphone } from "lucide-react";
+import { Download, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import logoImg from "@/assets/logo.png";
 
 interface PWAInstallPopupProps {
   show: boolean;
@@ -49,9 +50,7 @@ export const PWAInstallPopup = memo(({ show, onInstall, onDismiss }: PWAInstallP
               <div className="px-6 pb-6 pt-2">
                 {/* Icon */}
                 <div className="flex items-center gap-4 mb-4">
-                  <div className="w-14 h-14 rounded-xl bg-gradient-to-br from-primary to-accent flex items-center justify-center shadow-lg shrink-0">
-                    <Smartphone className="w-7 h-7 text-primary-foreground" />
-                  </div>
+                  <img src={logoImg} alt="NaariCare Logo" className="w-14 h-14 rounded-xl shadow-lg object-contain shrink-0" />
                   <div>
                     <h3 className="font-heading text-lg font-bold text-foreground">
                       Install NaariCare

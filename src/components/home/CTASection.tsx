@@ -1,7 +1,8 @@
 import { forwardRef } from "react";
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
-import { ArrowRight, Heart } from "lucide-react";
+import { ArrowRight } from "lucide-react";
+import logoImg from "@/assets/logo.png";
 
 export const CTASection = forwardRef<HTMLElement>((props, ref) => {
   return (
@@ -14,7 +15,7 @@ export const CTASection = forwardRef<HTMLElement>((props, ref) => {
       <div className="container mx-auto px-4 relative z-10">
         <div className="max-w-3xl mx-auto text-center">
           <div className="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-card shadow-glow mb-8">
-            <Heart className="w-8 h-8 text-accent fill-current" />
+            <img src={logoImg} alt="NaariCare" className="w-12 h-12 object-contain" />
           </div>
 
           <h2 className="font-heading text-3xl md:text-4xl lg:text-5xl font-bold text-foreground mb-6">

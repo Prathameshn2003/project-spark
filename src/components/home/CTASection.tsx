@@ -1,7 +1,8 @@
 import { forwardRef } from "react";
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
-import { ArrowRight, Heart } from "lucide-react";
+import { ArrowRight } from "lucide-react";
+import logoImg from "@/assets/logo.png";
 
 export const CTASection = forwardRef<HTMLElement>((props, ref) => {
   return (

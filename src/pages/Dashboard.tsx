@@ -2,8 +2,9 @@ import { DashboardLayout } from "@/components/layout/DashboardLayout";
 import { 
   Activity, Droplets, ChevronRight, Thermometer,
   Stethoscope, FileText, BookOpen, Calendar,
-  Heart, Sun, Moon, Sparkles
+  Sun, Moon, Sparkles
 } from "lucide-react";
+import logoImg from "@/assets/logo.png";
 import { Link } from "react-router-dom";
 import { useAuth } from "@/hooks/useAuth";
 import { useCycleTracking } from "@/hooks/useCycleTracking";

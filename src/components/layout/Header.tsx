@@ -1,8 +1,9 @@
 import { useState, memo, useCallback } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
-import { Heart, Menu, X, User, LogOut, Shield } from "lucide-react";
+import { Heart, Menu, X, User, LogOut, Shield, Download } from "lucide-react";
 import { useAuth } from "@/hooks/useAuth";
+import { usePWAInstall } from "@/hooks/usePWAInstall";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -29,6 +30,7 @@ export const Header = memo(() => {
   const location = useLocation();
   const navigate = useNavigate();
   const { user, signOut, loading, isAdmin } = useAuth();
+  const { isInstallable, isInstalled, openPopup } = usePWAInstall();
 
   const handleSignOut = useCallback(async () => {
     await signOut();
@@ -69,7 +71,18 @@ export const Header = memo(() => {
           </nav>
 
           {/* Desktop Actions */}
-          <div className="hidden md:flex items-center gap-3">
+          <div className="hidden md:flex items-center gap-2">
+            {isInstallable && !isInstalled && (
+              <Button
+                variant="outline"
+                size="sm"
+                className="gap-1.5 text-xs border-primary/30 text-primary hover:bg-primary/10"
+                onClick={openPopup}
+              >
+                <Download className="w-3.5 h-3.5" />
+                Install App
+              </Button>
+            )}
             {loading ? (
               <div className="w-8 h-8 rounded-full bg-muted animate-pulse" />
             ) : user ? (
@@ -170,6 +183,15 @@ export const Header = memo(() => {
                   <Shield className="w-4 h-4" />
                   Admin Panel
                 </Link>
+              )}
+              {isInstallable && !isInstalled && (
+                <button
+                  onClick={() => { openPopup(); setIsMenuOpen(false); }}
+                  className="px-4 py-3 rounded-lg text-sm font-medium transition-colors flex items-center gap-2 text-primary hover:bg-primary/10"
+                >
+                  <Download className="w-4 h-4" />
+                  Install App
+                </button>
               )}
               <div className="flex gap-2 mt-4 pt-4 border-t border-border">
                 {user ? (

@@ -36,40 +36,6 @@
     <!-- React & Vite App -->
     <script type="module" src="/src/main.tsx"></script>
 
-    <!-- Service Worker Registration -->
-    <script>
-      // Register Service Worker
-      if ('serviceWorker' in navigator) {
-        window.addEventListener('load', () => {
-          navigator.serviceWorker.register('/sw.js')
-            .then(reg => {
-              console.log('✅ Service Worker registered');
-              // Check for updates every minute
-              setInterval(() => reg.update(), 60000);
-            })
-            .catch(err => console.error('Service Worker failed:', err));
-        });
-      }
-
-      // Handle Install Prompt
-      let deferredPrompt;
-      window.addEventListener('beforeinstallprompt', (e) => {
-        e.preventDefault();
-        deferredPrompt = e;
-        console.log('📱 Install prompt ready');
-        // Dispatch custom event for React component
-        window.dispatchEvent(new CustomEvent('pwa-installable'));
-      });
-
-      // Handle App Installed
-      window.addEventListener('appinstalled', () => {
-        console.log('✅ App installed!');
-        localStorage.setItem('pwa-installed', 'true');
-        window.dispatchEvent(new CustomEvent('pwa-installed'));
-      });
-
-      // Expose deferredPrompt globally
-      window.deferredPrompt = () => deferredPrompt;
-    </script>
+    <!-- PWA install prompt is handled by React via usePWAInstall hook -->
   </body>
 </html>
